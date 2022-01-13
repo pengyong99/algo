@@ -81,7 +81,7 @@ namespace algo05_array
             T deletedElem = _data[index];
             if (index < _length - 1)
             {
-                for (int k = index; k < _length; k++)
+                for (int k = index; k < _length - 1; k++)
                 {
                     _data[k] = _data[k + 1];
                 }
