@@ -8,32 +8,36 @@ namespace algo06_linked_list
     /// <typeparam name="T"></typeparam>
     public class SingleLinkedList<T> where T : IComparable<T>
     {
+        public ListNode<T> First => Head.Next;
+
+        // 哨兵节点
+        public ListNode<T> Head { get; }
+
+        // 链表的总长度
+        public int Length { get; private set; }
+
         public SingleLinkedList()
         {
-            Head = new ListNode<T>(default(T));
+            Head = new ListNode<T>(default);
         }
 
         public SingleLinkedList(params T[] list)
         {
-            Head = new ListNode<T>(default(T));
+            // 哨兵节点
+            Head = new ListNode<T>(default);
             if (list == null) return;
 
-            var p = Head;
+            ListNode<T> p = Head;
             foreach (var item in list)
             {
                 var q = new ListNode<T>(item);
+                // p 结点中的 next 指针存储了 q 结点的内存地址。
                 p.Next = q;
-                p = q;
+                p = p.Next;
             }
 
             Length = list.Length;
         }
-
-        // Head node
-        public ListNode<T> First => Head.Next;
-        public ListNode<T> Head { get; }
-
-        public int Length { get; private set; }
 
         public ListNode<T> Insert(int position, T newElem)
         {
@@ -42,15 +46,17 @@ namespace algo06_linked_list
                 throw new IndexOutOfRangeException("Position must be in bound of list");
             }
 
-            var p = Head;
+            ListNode<T> p = Head;
 
+            // 遍历链表
             int j = 1;
             while (p != null && j < position)
             {
                 p = p.Next;
-                ++j;
+                j++;
             }
 
+            // 插入指针
             var newNode = new ListNode<T>(newElem);
             newNode.Next = p.Next;
             p.Next = newNode;
@@ -93,17 +99,25 @@ namespace algo06_linked_list
             return null;
         }
 
+        /// <summary>
+        /// 删除结点中“值等于某个给定值”的结点
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public ListNode<T> Delete(T value)
         {
             ListNode<T> cur = Head;
+            // 找到要删除结点中“值等于某个给定值”的结点的前驱结点 
             while (cur.Next != null && cur.Next.Value.CompareTo(value) != 0)
             {
                 cur = cur.Next;
             }
 
+            // 如果没找到就直接返回null
             if (cur.Next == null) return null;
 
-            var q = cur.Next;
+            // 前驱结点指向删除的结点的下一个结点即可
+            ListNode<T> q = cur.Next;
             cur.Next = q.Next;
 
             Length--;
@@ -111,6 +125,11 @@ namespace algo06_linked_list
             return q;
         }
 
+        /// <summary>
+        /// 删除给定指针指向的结点
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public ListNode<T> Delete(int position)
         {
             if (position < 1 || position > Length)
@@ -118,15 +137,18 @@ namespace algo06_linked_list
                 return null;
             }
 
-            var p = First;
+            ListNode<T> p = First;
+
+            // 找到要删除的结点的前驱结点
             int j = 1;
             while (p != null && j < position - 1)
             {
                 p = p.Next;
-                ++j;
+                j++;
             }
 
-            var q = p.Next;
+            // 前驱结点指向删除的结点的下一个结点即可
+            ListNode<T> q = p.Next;
             p.Next = q.Next;
 
             Length--;
@@ -136,7 +158,7 @@ namespace algo06_linked_list
 
         public void Clear()
         {
-            var cur = Head;
+            ListNode<T> cur = Head;
             while (cur.Next != null)
             {
                 var q = cur.Next;

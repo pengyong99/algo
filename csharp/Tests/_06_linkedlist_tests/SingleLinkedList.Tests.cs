@@ -8,10 +8,24 @@ namespace algo06_linkedlist_tests
     public class SingleLinkedListTests : BaseLinkedListTests
     {
         [Fact]
+        public void Insert_First_Elements_Return_Length_1()
+        {
+            var list = new SingleLinkedList<string>();
+
+            list.Insert(1,"py");
+
+            // 代码是否能正常工作
+            PrintLinkedList(list);
+
+            Assert.Equal(1, list.Length);
+        }
+
+
+        [Fact]
         public void Insert_3_Elements_Return_Length_3()
         {
             var list = new SingleLinkedList<string>("The", "Quick", "Brown");
-
+         
             PrintLinkedList(list);
 
             Assert.Equal(3, list.Length);

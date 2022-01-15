@@ -9,7 +9,7 @@ namespace algo06_linkedlist_tests
         {
             if (list == null) return;
 
-            var p = list.First;
+            ListNode<T> p = list.First;
             while (p != null)
             {
                 System.Console.WriteLine (p.Value);
